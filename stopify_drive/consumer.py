@@ -78,7 +78,7 @@ def spotifydownload(url,user_token,folder_id):
             imgurl=i.album_cover_url
         yt = YouTube(url)
         yts = yt.streams.get_audio_only()
-        yts = yt.streams.get_audio_only()
+        videoid=yt.video_id
         aud=yts.stream_to_buffer(buffer=typing.BinaryIO)
         final=b''
         for i in aud:
@@ -90,6 +90,7 @@ def spotifydownload(url,user_token,folder_id):
         folder_id=folder_id,
         getmetadata=False,
         artist=finalartist,
+        videoId=videoid,
         trackTime=trackTime,
         imgurl=imgurl,
     )

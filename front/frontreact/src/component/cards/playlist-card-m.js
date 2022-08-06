@@ -11,7 +11,7 @@ import styles from "./playlist-card-m.module.css";
 function PlaylistCardM(props) {
   const [isthisplay, setIsthisPlay] = useState(false);
   useEffect(() => {
-    setIsthisPlay(parseInt(props.data.index) === props.trackData.trackKey[0]);
+    setIsthisPlay(parseInt(props.data.index)-1 === props.trackData.trackKey[0]);
   });
 
   return (
@@ -28,7 +28,7 @@ function PlaylistCardM(props) {
         </div>
       </Link>
       <div
-        onClick={() => props.changeTrack([parseInt(props.data.index), 0])}
+        onClick={() => props.changeTrack([parseInt(props.data.index)-1, 0])}
         className={`${styles.IconBox} ${
           isthisplay && props.isPlaying ? styles.ActiveIconBox : ""
         }`}

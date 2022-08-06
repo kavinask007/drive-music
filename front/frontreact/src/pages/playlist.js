@@ -57,6 +57,7 @@ function PlaylistPage(props) {
               <div className={styles.PlaylistIcons}>
                 <button
                   onClick={() =>{
+                    console.log(playlistdata.indexOf(item))
                     props.changeTrack([playlistdata.indexOf(item), 0])
                     setIsthisPlay(true)}
                   }
@@ -70,7 +71,7 @@ function PlaylistPage(props) {
                 <TextRegularM>Music</TextRegularM>
                 <Icons.Time />
               </div>
-
+              
               <div className={styles.PlaylistSongs}>
                 {item.playlistData.map((song) => {
                   return (
@@ -87,6 +88,7 @@ function PlaylistPage(props) {
                     >
                       <PlaylistTrack
                         data={{
+                          playlistIndex:playlistdata.indexOf(item),
                           listType: item.type,
                           song: song,
                         }}

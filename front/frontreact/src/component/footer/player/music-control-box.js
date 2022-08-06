@@ -6,6 +6,7 @@ import PlayButton from "../../buttons/play-button";
 import styles from "./music-control-box.module.css";
 import { useEffect } from "react";
 import * as Hammer from "hammerjs";
+import { Loader } from "@mantine/core";
 function MusicControlBox(props) {
 	function lefthandle(e){
 		if (e.isFinal) {
@@ -104,7 +105,7 @@ function MusicControlBox(props) {
 			<button className={styles.button} onClick={decreaseIndex}>
 				<Icons.Prev />
 			</button>
-			<PlayButton isthisplay={true} large={props.large} />
+			{props.loading ? <Loader/>:<PlayButton isthisplay={true} large={props.large} /> }
 			<button className={styles.button} onClick={increaseIndex}>
 				<Icons.Next />
 			</button>

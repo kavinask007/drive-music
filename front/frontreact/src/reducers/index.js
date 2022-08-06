@@ -1,6 +1,27 @@
-import { PLAYPAUSE, CHANGETRACK, SETPLAYLIST, SETUSER,SETMENU,SETCLIENTX,SETCLIENTY} from "../actions/index";
-import {SETSONGID,SETRELOAD,SETNAVY,SETNAVX,SETNAVMENU} from "../actions/index";
-import {SETPLAYLISTID,SETSHUFFLE,SETSHUFFLELIST,SETSHUFFLEKEY,SETFOLDERS}from "../actions/index";
+import {
+  PLAYPAUSE,
+  CHANGETRACK,
+  SETPLAYLIST,
+  SETUSER,
+  SETMENU,
+  SETCLIENTX,
+  SETCLIENTY,
+} from "../actions/index";
+import {
+  SETSONGID,
+  SETRELOAD,
+  SETNAVY,
+  SETNAVX,
+  SETNAVMENU,
+  SETTIME,
+} from "../actions/index";
+import {
+  SETPLAYLISTID,
+  SETSHUFFLE,
+  SETSHUFFLELIST,
+  SETSHUFFLEKEY,
+  SETFOLDERS,
+} from "../actions/index";
 const INITIAL_STATE = {
   isPlaying: false,
   user: ". . . . . . ",
@@ -10,21 +31,24 @@ const INITIAL_STATE = {
     trackName: " ",
     trackImg:
       "https://i.pinimg.com/564x/0e/16/26/0e162634bfb41117c5ed8350ba3bf829.jpg",
-    track: "",
+    track: "", 
+    videoID: "",
   },
-  menu:false,
-  clientx:0,
-  clienty:0,
-  songid:0,
-  reload:false,
-  navmenu:false,
-  navX:0,
-  navY:0,
-  playlistid:'',
-  shuffle:false,
-  shufflelist:[],
-  shufflekey:0,
-  folders:[],
+  menu: false,
+  clientx: 0,
+  clienty: 0,
+  songid: 0,
+  reload: false,
+  navmenu: false,
+  navX: 0,
+  navY: 0,
+  playlistid: "",
+  shuffle: false,
+  shufflelist: [],
+  shufflekey: 0,
+  folders: [],
+  time:0,
+  
 };
 
 export const reducer = (state = INITIAL_STATE, action) => {
@@ -37,63 +61,64 @@ export const reducer = (state = INITIAL_STATE, action) => {
     case SETMENU:
       return {
         ...state,
-        menu:action.payload
-      }
+        menu: action.payload,
+      };
     case SETRELOAD:
-      return{
+      return {
         ...state,
-        reload:action.payload
-      }
+        reload: action.payload,
+      };
     case SETCLIENTX:
-        return {
-          ...state,
-          clientx:action.payload
-        }
-    case SETCLIENTY:
-          return {
-            ...state,
-            clienty:action.payload
-          }
-    case SETSONGID:
-      return{
+      return {
         ...state,
-        songid:action.payload}
+        clientx: action.payload,
+      };
+    case SETCLIENTY:
+      return {
+        ...state,
+        clienty: action.payload,
+      };
+    case SETSONGID:
+      return {
+        ...state,
+        songid: action.payload,
+      };
 
     case SETNAVMENU:
-      return{
+      return {
         ...state,
-        navmenu:action.payload
-      }
+        navmenu: action.payload,
+      };
     case SETNAVX:
-      return{
+      return {
         ...state,
-        navX:action.payload
-      }
+        navX: action.payload,
+      };
     case SETNAVY:
-      return{
+      return {
         ...state,
-        navY:action.payload
-      }
+        navY: action.payload,
+      };
     case SETPLAYLISTID:
-      return{
+      return {
         ...state,
-        playlistid:action.payload
-      }
+        playlistid: action.payload,
+      };
     case SETSHUFFLE:
-      return{
+      return {
         ...state,
-        shuffle:action.payload
-      }
+        shuffle: action.payload,
+      };
     case SETSHUFFLELIST:
-      return{
+      return {
         ...state,
-        shufflelist:action.payload
-      }
+        shufflelist: action.payload,
+      };
     case SETSHUFFLEKEY:
-      return{
+      return {
         ...state,
-        shufflekey:action.payload
-      }
+        shufflekey: action.payload,
+      };
     case CHANGETRACK:
       return {
         ...state,
@@ -120,6 +145,11 @@ export const reducer = (state = INITIAL_STATE, action) => {
               action.payload[1]
             ].songArtist
           }`,
+          videoID:`${
+            state.playlistdata[action.payload[0]].playlistData[
+              action.payload[1]
+            ].videoId
+          }`
         },
       };
     case SETPLAYLIST:
@@ -132,6 +162,7 @@ export const reducer = (state = INITIAL_STATE, action) => {
           trackName: `${action.payload[0].playlistData[0].songName}`,
           trackImg: `${action.payload[0].playlistData[0].songimg}`,
           trackArtist: `${action.payload[0].playlistData[0].songArtist}`,
+          videoID: `${action.payload[0].playlistData[0].videoId}`,
         },
       };
     case SETUSER:
@@ -143,7 +174,14 @@ export const reducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         folders: action.payload,
-      }
+      };
+
+    case SETTIME:
+      return {
+        ...state,
+        time: action.payload,
+      };
+   
     default:
       return state;
   }

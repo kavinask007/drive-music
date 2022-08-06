@@ -10,6 +10,7 @@ import { Button, Card, Center, Stack } from "@mantine/core";
 import TitleS from "../component/text/title-s";
 import { AddFolder } from "../addfolder";
 import { FolderPlus } from "tabler-icons-react";
+import VideoPlayer  from "../videoPlayer";
 function Home(props) {
   return (
     <div>
@@ -17,7 +18,7 @@ function Home(props) {
         <div className={styles.HoverBg}></div>
         <div className={styles.Bg}></div>
         <Topnav />
-
+         
         <div className={styles.Content}>
           <section>
             {props.nodata ? (

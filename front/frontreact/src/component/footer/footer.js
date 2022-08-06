@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { changeTrack, changePlay, setshufflekey } from "../../actions";
+import { changeTrack, changePlay, setshufflekey, settime} from "../../actions";
 import useWindowSize from "../../hooks/useWindowSize";
 import FooterLeft from "./footer-left";
 import MusicControlBox from "./player/music-control-box";
@@ -9,13 +9,16 @@ import FooterRight from "./footer-right";
 import Audio from "./audio";
 import CONST from "../../constants/index";
 import styles from "./footer.module.css";
+import VideoPlayer from "../../videoPlayer";
 
 function Footer(props) {
 	const size = useWindowSize();
+	const [audioLoading,setaudioLoading] = useState(true);
 	const [currentTime, setCurrentTime] = useState(0);
 	const [duration, setDuration] = useState(0);
 	const [volume, setVolume] = useState(1);
 	const audioRef = useRef(null);
+	props.settime(currentTime);
 	const handleTrackClick = (position) => {
 		audioRef.current.currentTime = position;
 	};
@@ -102,14 +105,16 @@ function Footer(props) {
 					currentTime={currentTime}
 					volume={volume} setVolume={setVolume}
 					width={size.width}
+					loading={audioLoading}
 				/>
 
 				<div className={styles.footerMid}>
-					<MusicControlBox large={false}/>
+					<MusicControlBox large={false} loading={audioLoading}/>
 					<MusicProgressBar
 						currentTime={currentTime}
 						duration={duration}
 						handleTrackClick={handleTrackClick}
+						
 					/>
 					<Audio
 						ref={audioRef}
@@ -117,6 +122,7 @@ function Footer(props) {
 						handleCurrentTime={setCurrentTime}
 						trackData={props.trackData}
 						isPlaying={props.isPlaying}
+						setloading={setaudioLoading}
 					/>
 				</div>
 				{size.width > CONST.MOBILE_SIZE && (
@@ -142,4 +148,5 @@ export default connect(mapStateToProps, {
 	changeTrack,
 	changePlay,
 	setshufflekey,
+	settime,
 })(Footer);

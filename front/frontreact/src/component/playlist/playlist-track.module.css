@@ -7,7 +7,7 @@
   color: white;
   position: relative;
   display: grid;
-  grid-template-columns: 16px 36px 1fr 60px;
+  grid-template-columns: 16px 36px 1fr 90px;
   align-items: center;
   text-align: left;
   padding: 0px 16px;
