@@ -56,7 +56,7 @@ export default function Main(props) {
       setloading(false);
     }
     dispatch(setreload(false));
-    fetch(endpoint + "/api/getsongs2/", {
+    fetch(endpoint + "/api/getsongs/", {
       method: "GET",
       headers: {
         Authorization: get_token(),
@@ -91,10 +91,13 @@ export default function Main(props) {
           template["hoverColor"] = list[i].hoverColor;
           template["artist"] = list[i].artist;
           template["playlistBg"] = list[i].playlistBg;
+          template["isLoaded"]=false;
           template["playlistData"] = track;
+
           final.push(template);
           template = {};
         }
+        console.log(final)
         dispatch(setplaylist(final));
         setdataloaded(true);
         setloading(false);

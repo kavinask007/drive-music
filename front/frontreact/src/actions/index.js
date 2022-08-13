@@ -17,6 +17,7 @@ export const SETSHUFFLEKEY='SETSHUFFLEKEY'
 export const SETSHARED='SETSHARED'
 export const SETFOLDERS="SETFOLDERS"
 export const SETTIME="SETTIME"
+export const SETPLAYLISTDATA="SETPLAYLISTDATA"
 export const changePlay = (isPlaying) => {
   return { type: PLAYPAUSE, payload: isPlaying };
 };
@@ -74,4 +75,7 @@ export const setfolders=(data)=>{
 }
 export const settime=(data)=>{
   return {type:SETTIME,payload:data}
+}
+export const setplaylistdata=(index,data)=>{
+  return {type:SETPLAYLISTDATA,payload:data,index:index}
 }

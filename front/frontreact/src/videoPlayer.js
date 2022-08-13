@@ -6,6 +6,7 @@ export default function VideoPlayer(props) {
   const isPlaying = useSelector((state) => state.isPlaying);
   const time = useSelector((state) => state.time);
   const [player, setplayer] = useState(null);
+  console.log(props.videoId)
 if (player && props.videoId != undefined && player["i"] != null){
   player.mute()
     if (Math.round(player.getCurrentTime()) !== Math.round(time)) {
@@ -42,7 +43,7 @@ if (player && props.videoId != undefined && player["i"] != null){
           onReady={onPlayerReady}
           videoId={props.videoId}
           start={time}
-          containerClassName="embed embed-youtube"
+          containerClassName={props.videoId}
           onStateChange={(e) => {
             // console.log(e);
             ;

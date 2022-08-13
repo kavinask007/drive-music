@@ -11,6 +11,7 @@ from django.utils import timezone
 from datetime import timedelta
 from .colors import colors
 from .utils import *
+import time
 from rest_framework.authtoken.models import Token
 # check and return if user is logged in 
 @api_view(("GET",))
@@ -156,7 +157,7 @@ def getsongs(request):
 
 # to get songs from a particular drive folder
 @api_view(('POST',))
-def get_songs_from_folder(request):
+def get_songs_from_folder(request):     
     username=request.data.get("user")
     id_=request.data.get('id')
     if len(User_tokens.objects.filter(username=username))==0:
@@ -164,29 +165,9 @@ def get_songs_from_folder(request):
     user_token = User_tokens.objects.get(
         username=username).update_token_if_needed()
     files=get_items_from_folderid(user_token.access_token,id_,False)
-    final={}
-    for num,i in enumerate(files):
-        if "appProperties" in i:
-            songArtist = i["appProperties"]["songArtist"]
-            trackTime =i["appProperties"]["trackTime"]
-            trackimg = i["appProperties"]["trackimg"]
-        else:
-            songArtist = "unknown Aritst"
-            trackTime = "none"
-            trackimg ='https://i.ibb.co/hc4sC8X/Pngtree-musical-note-decorative-watercolor-splatter-5348137.png'
-
-        final[num] = {
-            "index": str(num),
-            "songName": i["name"],
-            "songimg": trackimg,
-            "songArtist": songArtist,
-            "link": i["webContentLink"],
-            "trackTime": trackTime,
-            "id": i["id"],
-        }
-    return Response(final,status=status.HTTP_200_OK)
+    songs=jsonify_songs(files)
+    return Response(songs[0],status=status.HTTP_200_OK)
     
-
 # to delete file in google drive
 @api_view(('POST',))
 def delete_view(request):
@@ -333,3 +314,60 @@ def move_file(request):
     if 'error' in result:
         return Response({},status=status.HTTP_400_BAD_REQUEST)
     return Response({},status=status.HTTP_200_OK)
+
+
+# to display all files in drivify folder
+@api_view(("GET",))
+def getplaylist(request):
+    username = request.user
+    if not username.is_authenticated:
+        return  Response({}, status=status.HTTP_400_BAD_REQUEST) 
+    # get the user's gdrive token
+    user_token = User_tokens.objects.get(
+        username=username).update_token_if_needed()
+    # check if drivify folder exists if not create one
+    folder_id = get_stopify_folder_id(user_token.access_token)
+    if len(folder_id) == 0:
+        stopify_id=create_stopify_folder(user_token.access_token)
+        if 'id' in stopify_id:
+            create_playlist_folder(user_token.access_token,'All Songs')
+        return Response({}, status=status.HTTP_200_OK)
+    final_template={}
+    # get all the folders in drivify folder
+    root= get_items_from_folderid(user_token.access_token, folder_id,True)
+    # loop through all the folders and jsonify the song data
+    for num,folder in enumerate(root):
+        randomcolor=colors[random.randint(0,len(colors)-1)]
+        final_template[str(num)]={
+        "index": str(num),
+        "type": "album",    
+        "title": folder['name'],
+        "link": folder['id'],
+        "hoverColor": randomcolor,
+        "artist": str(username),
+        "playlistBg": randomcolor,
+        "imgUrl":"https://i.ibb.co/txDCNx5/music-placeholder.png",
+        "playlistData":[]
+    }
+    if num>0 or "0" in final_template:
+        num+=1
+    # user's shared playlists
+    playlists=Playlist.objects.filter(user=user_token)
+    if len(playlists)==0:
+        return Response(final_template, status=status.HTTP_200_OK)
+    for folder in playlists:
+        randomcolor=colors[random.randint(0,len(colors)-1)]
+        final_template[str(num)]={
+        "index": str(num),
+        "type": "shared",    
+        "title": folder.name,
+        "link": folder.playlist,
+        "hoverColor": randomcolor,
+        "artist": folder.owner,
+        "playlistBg": randomcolor,
+        "imgUrl":"https://i.ibb.co/txDCNx5/music-placeholder.png",
+        "playlistData":[] 
+    }
+        num+=1
+    # print(final_template)
+    return Response(final_template, status=status.HTTP_200_OK)

@@ -229,7 +229,7 @@ def jsonify_songs(files):
         else:
             songArtist = "unknown Aritst"
             trackTime = "none"
-            trackimg = "https://i.ibb.co/hc4sC8X/Pngtree-musical-note-decorative-watercolor-splatter-5348137.png"
+            trackimg = "https://i.ibb.co/txDCNx5/music-placeholder.png"
         final[str(i)] = {
             "index": str(i + 1),
             "songName": files[i]["name"],

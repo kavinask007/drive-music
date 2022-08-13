@@ -21,6 +21,7 @@ import {
   SETSHUFFLELIST,
   SETSHUFFLEKEY,
   SETFOLDERS,
+  SETPLAYLISTDATA,
 } from "../actions/index";
 const INITIAL_STATE = {
   isPlaying: false,
@@ -29,9 +30,8 @@ const INITIAL_STATE = {
   trackData: {
     trackKey: [0, 0],
     trackName: " ",
-    trackImg:
-      "https://i.pinimg.com/564x/0e/16/26/0e162634bfb41117c5ed8350ba3bf829.jpg",
-    track: "", 
+    trackImg: "https://i.ibb.co/txDCNx5/music-placeholder.png",
+    track: "",
     videoID: "",
   },
   menu: false,
@@ -47,8 +47,7 @@ const INITIAL_STATE = {
   shufflelist: [],
   shufflekey: 0,
   folders: [],
-  time:0,
-  
+  time: 0,
 };
 
 export const reducer = (state = INITIAL_STATE, action) => {
@@ -120,50 +119,67 @@ export const reducer = (state = INITIAL_STATE, action) => {
         shufflekey: action.payload,
       };
     case CHANGETRACK:
-      return {
-        ...state,
-        trackData: {
-          ...state.trackData,
-          trackKey: action.payload,
-          track: `${
-            state.playlistdata[action.payload[0]].playlistData[
-              action.payload[1]
-            ].link
-          }`,
-          trackName: `${
-            state.playlistdata[action.payload[0]].playlistData[
-              action.payload[1]
-            ].songName
-          }`,
-          trackImg: `${
-            state.playlistdata[action.payload[0]].playlistData[
-              action.payload[1]
-            ].songimg
-          }`,
-          trackArtist: `${
-            state.playlistdata[action.payload[0]].playlistData[
-              action.payload[1]
-            ].songArtist
-          }`,
-          videoID:`${
-            state.playlistdata[action.payload[0]].playlistData[
-              action.payload[1]
-            ].videoId
-          }`
-        },
-      };
+      if (
+        state.playlistdata[action.payload[0]].playlistData.length >
+        action.payload[1]
+      ) {
+        return {
+          ...state,
+          trackData: {
+            ...state.trackData,
+            trackKey: action.payload,
+            track: `${
+              state.playlistdata[action.payload[0]].playlistData[
+                action.payload[1]
+              ].link
+            }`,
+            trackName: `${
+              state.playlistdata[action.payload[0]].playlistData[
+                action.payload[1]
+              ].songName
+            }`,
+            trackImg: `${
+              state.playlistdata[action.payload[0]].playlistData[
+                action.payload[1]
+              ].songimg
+            }`,
+            trackArtist: `${
+              state.playlistdata[action.payload[0]].playlistData[
+                action.payload[1]
+              ].songArtist
+            }`,
+            videoID: `${
+              state.playlistdata[action.payload[0]].playlistData[
+                action.payload[1]
+              ].videoId
+            }`,
+          },
+        };
+      } else {
+        return { ...state };
+      }
     case SETPLAYLIST:
       return {
         ...state,
         playlistdata: action.payload,
-        trackData: {
-          trackKey: [0, 0],
-          track: `${action.payload[0].playlistData[0].link}`,
-          trackName: `${action.payload[0].playlistData[0].songName}`,
-          trackImg: `${action.payload[0].playlistData[0].songimg}`,
-          trackArtist: `${action.payload[0].playlistData[0].songArtist}`,
-          videoID: `${action.payload[0].playlistData[0].videoId}`,
-        },
+        // trackData: {
+        //   trackKey: [0, 0],
+        //   track: `${action.payload[0].playlistData[0].link}`,
+        //   trackName: `${action.payload[0].playlistData[0].songName}`,
+        //   trackImg: `${action.payload[0].playlistData[0].songimg}`,
+        //   trackArtist: `${action.payload[0].playlistData[0].songArtist}`,
+        //   videoID: `${action.payload[0].playlistData[0].videoId}`,
+        // },
+      };
+    case SETPLAYLISTDATA:
+      return {
+        ...state,
+        playlistdata: state.playlistdata.map((item, index) => {
+          if (index == action.index) {
+            return action.payload;
+          }
+          return item;
+        }),
       };
     case SETUSER:
       return {
@@ -181,7 +197,7 @@ export const reducer = (state = INITIAL_STATE, action) => {
         ...state,
         time: action.payload,
       };
-   
+
     default:
       return state;
   }
