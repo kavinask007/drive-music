@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: spotify-drive-load-balancer
+spec:
+  selector:
+    app: stopify-drive-main
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 32767
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stopify-drive-main
+spec:
+  selector:
+    matchLabels:
+      app: stopify-drive-main
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: stopify-drive-main
+    spec:
+      containers:
+      - name: stopify-drive-main
+        image: stopify_drive_main
+        command: ["daphne","-b","0.0.0.0", "-p", "80", "stopify_drive.asgi:application"]
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        
