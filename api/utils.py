@@ -14,7 +14,7 @@ def get_access_token(code):
             "code": code,
             "client_id": client_id,
             "client_secret": client_secret,
-            "redirect_uri": "https://drivemusic.herokuapp.com/code/",
+            "redirect_uri": "https://drivify-kavinask007.vercel.app/code/",
         },
     ).json()
 
