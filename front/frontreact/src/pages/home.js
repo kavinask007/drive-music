@@ -1,24 +1,25 @@
 import Topnav from "../component/topnav/topnav";
-import TitleL from "../component/text/title-l";
 import PlaylistCardM from "../component/cards/playlist-card-m";
-import PlaylistCardS from "../component/cards/playlist-card-s";
 import styles from "./home.module.css";
-import { useSelector } from "react-redux";
 import { Addplaylist } from "../addPlaylist";
-import cardsytles from "../component/cards/playlist-card-m.module.css";
 import { Button, Card, Center, Stack } from "@mantine/core";
 import TitleS from "../component/text/title-s";
 import { AddFolder } from "../addfolder";
 import { FolderPlus } from "tabler-icons-react";
-import VideoPlayer  from "../videoPlayer";
+import { useSelector } from "react-redux";
 function Home(props) {
+  const trackData = useSelector((state) => state.trackData);
   return (
     <div>
-      <div className={styles.Home}>
+      <div
+        className={
+        trackData.data == "" ? styles.Home : styles.HomeBottomPadding
+        }
+      >
         <div className={styles.HoverBg}></div>
         <div className={styles.Bg}></div>
         <Topnav />
-         
+
         <div className={styles.Content}>
           <section>
             {props.nodata ? (

@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import MoreMenu from "../moremenu";
 import { CreateShuffleList } from "../functions/random";
 import { get_folder_songs } from "../services/getsongs";
-import { setplaylistdata,changePlay } from "../actions";
+import { setplaylistdata, changePlay } from "../actions";
 import { Center, Loader } from "@mantine/core";
 function PlaylistPage(props) {
   const [playlistIndex, setPlaylistIndex] = useState(undefined);
@@ -37,15 +37,15 @@ function PlaylistPage(props) {
     }
     if (flag) {
       setloading(true);
-      var user= playlistdata[index]["artist"];
-      get_folder_songs(path,user).then((data) => {
+      var user = playlistdata[index]["artist"];
+      get_folder_songs(path, user).then((data) => {
         var playlist = playlistdata[index];
         var playlistData = Object.values(data);
         if (playlistData.length == 0) {
           playlist["isLoaded"] = true;
           props.setplaylistdata(index, playlist);
           setloading(false);
-          return 
+          return;
         }
         playlist["playlistData"] = playlistData;
         playlist["isLoaded"] = true;
@@ -80,7 +80,13 @@ function PlaylistPage(props) {
           <Loader />
         </Center>
       ) : (
-        <div className={styles.PlaylistPage}>
+        <div
+          className={
+            props.trackData.track == ""
+              ? styles.PlaylistPage
+              : styles.PlaylistPageBottomPadding
+          }
+        >
           <div className={styles.gradientBg}></div>
           <div className={styles.gradientBgSoft}></div>
           <div className={styles.Bg}></div>
@@ -125,7 +131,7 @@ function PlaylistPage(props) {
                               playlistdata.indexOf(item),
                               item.playlistData.indexOf(song),
                             ]);
-                            props.changePlay(true)
+                            props.changePlay(true);
                           }}
                           className={styles.SongBtn}
                         >
@@ -164,5 +170,5 @@ export default connect(mapStateToProps, {
   setplaylistid,
   setshufflelist,
   setplaylistdata,
-  changePlay
+  changePlay,
 })(PlaylistPage);
