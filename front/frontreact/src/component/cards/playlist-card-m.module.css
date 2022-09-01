@@ -12,8 +12,8 @@
 }
 .ImgBox {
   position: relative;
-  width:250px;
-  height:200px  ;
+  width: 250px;
+  height: 200px;
   -webkit-box-shadow: 0 -4px 12px rgb(0 0 0 / 50%);
   box-shadow: 0 -4px 12px rgb(0 0 0 / 50%);
 }
@@ -59,6 +59,10 @@
 .Title {
   margin-top: 16px;
   min-height: 62px;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  flex-direction: column;
 }
 .Title p {
   margin: 0px;
@@ -76,4 +80,14 @@
 .PlaylistCardSBox:hover .IconBox {
   bottom: 106px;
   opacity: 1;
+}
+@media screen and (max-width: 640px) {
+  .IconBox button:nth-child(1) {
+    -webkit-transform: scale(1.06);
+    transform: scale(1.06);
+  }
+  .IconBox {
+    bottom: 106px;
+    opacity: 1;
+  }
 }

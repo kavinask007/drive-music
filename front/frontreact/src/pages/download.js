@@ -23,7 +23,6 @@ import {
 import {
   Clipboard,
   Folder,
-  FolderOff,
   FolderPlus,
   Refresh,
 } from "tabler-icons-react";
@@ -147,7 +146,7 @@ const MyUploader = () => {
           
             <span>
               <Grid container xs={12}>
-              <AddFolder trigger={() => <FolderPlus size={28} className="pointer"/>} />
+              <AddFolder trigger={() => <FolderPlus size={28} className="pointer"/>} callback={()=>updatefolders} />
               <Space w="sm" />
                 <Select
                   placeholder="Pick a folder"

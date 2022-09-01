@@ -2,8 +2,12 @@
   overflow-y: scroll;
   background: transparent;
   position: relative;
-  margin-bottom: 95px;
-  padding-bottom: 16px;
+}
+.HomeBottomPadding {
+  overflow-y: scroll;
+  background: transparent;
+  position: relative;
+  padding-bottom: 180px;
 }
 .HoverBg {
   height: 332px;

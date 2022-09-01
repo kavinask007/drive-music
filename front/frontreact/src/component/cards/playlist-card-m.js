@@ -45,15 +45,14 @@ function PlaylistCardM(props) {
   return (
     <div className={styles.PlaylistCardSBox}>
       <Link to={`/${props.type}/${props.data.link}`}>
-        <div className={styles.PlaylistCardS}>
+       
           <div className={styles.ImgBox}>
             <img src={props.data.imgUrl} alt={props.data.title} />
           </div>
           <div className={styles.Title}>
             <TextBoldL>{props.data.title}</TextBoldL>
-            <TextRegularM>{props.data.artist}</TextRegularM>
           </div>
-        </div>
+      
       </Link>
       <div
         onClick={() => {

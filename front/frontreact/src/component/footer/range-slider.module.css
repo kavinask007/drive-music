@@ -6,10 +6,10 @@
 .range__slider {
 	-webkit-appearance: none;
 	background-color: #535353;
-	height: 3px;
+	height: 4px;
 	overflow: hidden;
 	width: auto;
-	border-radius: 2px;
+	border-radius: 10px;
 }
 .spanThumb{
 	width: 10px;
@@ -38,7 +38,6 @@
 }
 .range__slider::-moz-range-thumb {
 	background: #b3b3b3;
-	border-radius: 50%;
 	box-shadow: -410px 0 0 408px #b3b3b3;
 	cursor: pointer;
 	height: 4px;
@@ -51,12 +50,16 @@
 .range__slider::-moz-range-progress {
 	background-color: #b3b3b3;
 	height: 4px;
+	width: 4px;
+	border-radius: 5px;
+	
 }
 .range__slider::-ms-fill-upper {
 	background-color: #535353;
 }
 .range__slider::-ms-fill-lower {
 	background-color: #b3b3b3;
+	border-radius: 5px;
 }
 .progressBar:hover .range__slider::-webkit-slider-thumb {
 	background: #1db954;

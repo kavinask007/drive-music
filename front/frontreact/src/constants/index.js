@@ -27,7 +27,7 @@ export  function get_token(){
 return `Token ${window.localStorage.getItem('token')}`
 }
 export function get_redirect_uri(){
-  return "https://accounts.google.com/o/oauth2/auth?client_id=477933482388-di0ob9thvi50mbg8990esku7aoulrk1b.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Fdrivemusic.herokuapp.com%2Fcode%2F&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive&access_type=offline&response_type=code&approval_prompt=force"
+  return "https://accounts.google.com/o/oauth2/auth?client_id=477933482388-di0ob9thvi50mbg8990esku7aoulrk1b.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Fdrivify.ml%2Fcode%2FF&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive&access_type=offline&response_type=code&approval_prompt=force"
 }
 export const PLAYLISTBTN = [];
 export const endpoint="https://drivify.ml";

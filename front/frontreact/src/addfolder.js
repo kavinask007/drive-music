@@ -9,11 +9,11 @@ import {
 } from "@mantine/core";
 import {endpoint, requestoptions } from "./constants/index";
 import { showNotification } from "@mantine/notifications";
+
 export function AddFolder(props) {
   const [opened, setOpened] = useState(false);
   const [name, setName] = useState("");
   const [visible, setVisible] = useState(false);
-
   function addPlaylist(props) {
     setVisible(true);
     requestoptions.method = "POST";

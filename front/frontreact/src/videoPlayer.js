@@ -1,7 +1,6 @@
-import { Modal } from "@mantine/core";
-import { useRef, useState, useEffect, useCallback } from "react";
+import {useState,} from "react";
 import { useSelector } from "react-redux";
-import YouTube, { YouTubeProps } from "react-youtube";
+import YouTube from "react-youtube";
 export default function VideoPlayer(props) {
   const isPlaying = useSelector((state) => state.isPlaying);
   const time = useSelector((state) => state.time);
@@ -44,10 +43,6 @@ if (player && props.videoId != undefined && player["i"] != null){
           videoId={props.videoId}
           start={time}
           containerClassName={props.videoId}
-          onStateChange={(e) => {
-            // console.log(e);
-            ;
-          }}
           opts={opts}
         />
       ) : (
