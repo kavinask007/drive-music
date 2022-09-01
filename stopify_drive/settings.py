@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get("django_secret_key")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG =False
 
-ALLOWED_HOSTS = ['drivemusic.herokuapp.com']
+ALLOWED_HOSTS = ['drivemusic.herokuapp.com',"main"]
 
 # Application definition
 
@@ -100,11 +100,20 @@ ASGI_APPLICATION = "stopify_drive.asgi.application"
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-DATABASES={}
-import dj_database_url
-db_from_env=dj_database_url.config(conn_max_age=600)
-DATABASES['default']=db_from_env
-
+#DATABASES={}
+#import dj_database_url
+#db_from_env=dj_database_url.config(conn_max_age=600)
+#DATABASES['default']=db_from_env
+DATABASES = {
+   'default': {
+       'ENGINE': 'django.db.backends.postgresql',
+       'NAME': os.environ.get("db_name"),
+       'USER': os.environ.get("db_user"),
+       'PASSWORD':os.environ.get("db_pass"),
+       'HOST': os.environ.get("db_host"),
+       'PORT': os.environ.get("db_port"),
+   }
+}
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -149,6 +158,3 @@ STATICFILES_DIRS=[
 MEDIA_ROOT=os.path.join(BASE_DIR,"media")   
 MEDIA_URL = '/media/'
 CORS_ORIGIN_ALLOW_ALL =False
-CORS_ORIGIN_WHITELIST = (
-  'https://drivify-kavinask007.vercel.app/',
-)
