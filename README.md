@@ -1,7 +1,7 @@
 # drive-music
 music player app to upload and listen to songs from users drive account storage
 
-https://drivemusic.herokuapp.com/
+https://drivify.ml/
 
 Features:
  * Streaming songs from drive 
