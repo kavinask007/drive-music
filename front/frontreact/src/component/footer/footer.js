@@ -21,13 +21,14 @@ function Footer(props) {
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(local_volume);
   const audioRef = useRef(null);
+
   props.settime(currentTime);
   const handleTrackClick = (position) => {
     audioRef.current.currentTime = position;
   };
   const setVolumefn=(volume)=>{
-    localStorage.setItem("volume",volume);
     setVolume(volume)
+    localStorage.setItem("volume",volume);
   }
   useEffect(() => {
     if (audioRef.current) {
@@ -43,9 +44,10 @@ function Footer(props) {
 
   useEffect(() => {
     if (audioRef.current) {
+      
       audioRef.current.volume = volume;
     }
-  }, [audioRef, volume]);
+  }, [audioRef, volume,props.trackData.track]);
 
   useEffect(() => {
     if (audioRef.current) {

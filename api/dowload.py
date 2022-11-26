@@ -60,7 +60,7 @@ def downloadfromyoutube(request):
     try:
         yt = YouTube(url)
         videoid=yt.video_id
-        imgurl = yt.thumbnail_url
+        imgurl = yt.vid_info["videoDetails"]["thumbnail"]["thumbnails"][1]["url"]
         audioname = yt.title
         artist = yt.author
         trackTime = convert_seconds_to_minutes(yt.length)

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { TextInput } from "@mantine/core";
 import { Modal, Button, Group, Center, Space,LoadingOverlay } from "@mantine/core";
 import { FolderPlus, SquarePlus } from "tabler-icons-react";
-import { get_token ,endpoint} from "./constants/index";
+import { get_token ,endpoint,getCookie} from "./constants/index";
 import { showNotification } from '@mantine/notifications';
 export function Addplaylist() {
   const [opened, setOpened] = useState(false);
@@ -93,16 +93,3 @@ export function Addplaylist() {
 }
 
 
-function getCookie(name) {
-	let cookieValue = null;
-	if (document.cookie && document.cookie !== "") {
-		const cookies = document.cookie.split(";");
-		for (let i = 0; i < cookies.length; i++) {
-			const cookie = cookies[i].trim();
-			if (cookie.substring(0, name.length + 1) === name + "=") {
-				cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-				break;
-			}
-		}
-	}
-	return cookieValue;}

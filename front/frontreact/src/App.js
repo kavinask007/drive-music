@@ -9,7 +9,7 @@ import {
 import "./App.css";
 import { useState,useEffect} from "react";
 import Main from "./Main";
-import { endpoint, get_token } from "./constants";
+import { endpoint, get_token,getCookie } from "./constants";
 import { NotificationsProvider } from "@mantine/notifications";
 import { MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
@@ -18,7 +18,7 @@ function App(props) {
   return (
     <Router>
       <Switch>
-        <MantineProvider theme={{ colorScheme: "dark", primaryColor: "green" }}>
+        <MantineProvider withNormalizeCSS theme={{ colorScheme: "dark", primaryColor: "green" }}>
           <NotificationsProvider  position="top-center">
             <ModalsProvider>
             <Route  path="/" exact component={Main}></Route>
@@ -60,21 +60,6 @@ function Code() {
     });
   });
   return <></>;
-}
-
-function getCookie(name) {
-  let cookieValue = null;
-  if (document.cookie && document.cookie !== "") {
-    const cookies = document.cookie.split(";");
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i].trim();
-      if (cookie.substring(0, name.length + 1) === name + "=") {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        break;
-      }
-    }
-  }
-  return cookieValue;
 }
 
 export default App;

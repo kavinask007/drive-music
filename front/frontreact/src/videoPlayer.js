@@ -1,19 +1,20 @@
-import {useState,} from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import YouTube from "react-youtube";
 export default function VideoPlayer(props) {
   const isPlaying = useSelector((state) => state.isPlaying);
   const time = useSelector((state) => state.time);
+  const starttime=time
   const [player, setplayer] = useState(null);
-  console.log(props.videoId)
-if (player && props.videoId != undefined && player["i"] != null){
-  player.mute()
-    if (Math.round(player.getCurrentTime()) !== Math.round(time)) {
+  if (player && props.videoId != undefined && player["i"] != null) {
+    player.mute();
+    if (
+      Math.round(player.getCurrentTime()) - Math.round(time) < 0.5 
+    ) {
       player.seekTo(time);
     }
     if (isPlaying) {
       player.playVideo();
-    
     } else {
       player.pauseVideo();
     }
@@ -28,7 +29,7 @@ if (player && props.videoId != undefined && player["i"] != null){
       enablejsapi: 1,
       modestbranding: 1,
       hideVideoInfo: 1,
-      iv_load_policy:3
+      iv_load_policy: 3,
     },
   };
   const onPlayerReady = (event) => {
@@ -41,7 +42,7 @@ if (player && props.videoId != undefined && player["i"] != null){
         <YouTube
           onReady={onPlayerReady}
           videoId={props.videoId}
-          start={time}
+          start={starttime}
           containerClassName={props.videoId}
           opts={opts}
         />

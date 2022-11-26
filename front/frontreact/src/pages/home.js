@@ -24,7 +24,6 @@ function Home(props) {
           <section>
             {props.nodata ? (
               <>
-                {" "}
                 <div className={styles.SectionTitle}>
                   <Addplaylist />
                 </div>

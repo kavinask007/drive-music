@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { changeTrack, setplaylistdata } from "../../actions";
+import { changeTrack, setplaylistdata, setshufflelist } from "../../actions";
 import { Link } from "react-router-dom";
 import TextBoldL from "../text/text-bold-l";
-import TextRegularM from "../text/text-regular-m";
-import PlayButton from "../buttons/play-button"; 
-import PlayButton2 from "../buttons/Play-button2"; 
+import PlayButton from "../buttons/play-button";
+import PlayButton2 from "../buttons/Play-button2";
 import { get_folder_songs } from "../../services/getsongs";
 import styles from "./playlist-card-m.module.css";
 import { Loader } from "@mantine/core";
+import { CreateShuffleList } from "../../functions/random";
 function PlaylistCardM(props) {
   const [isthisplay, setIsthisPlay] = useState(false);
   const [loading, setloading] = useState(false);
@@ -32,9 +32,10 @@ function PlaylistCardM(props) {
         playlist["isLoaded"] = true;
         props.setplaylistdata(index, playlist);
         setloading(false);
-        return 
+        return;
       }
       playlist["playlistData"] = playlistData;
+      props.setshufflelist(CreateShuffleList(playlistData.length));
       playlist["isLoaded"] = true;
       playlist["imgUrl"] = playlistData[0]["songimg"];
       props.setplaylistdata(index, playlist);
@@ -45,14 +46,12 @@ function PlaylistCardM(props) {
   return (
     <div className={styles.PlaylistCardSBox}>
       <Link to={`/${props.type}/${props.data.link}`}>
-       
-          <div className={styles.ImgBox}>
-            <img src={props.data.imgUrl} alt={props.data.title} />
-          </div>
-          <div className={styles.Title}>
-            <TextBoldL>{props.data.title}</TextBoldL>
-          </div>
-      
+        <div className={styles.ImgBox}>
+          <img src={props.data.imgUrl} alt={props.data.title} />
+        </div>
+        <div className={styles.Title}>
+          <TextBoldL>{props.data.title}</TextBoldL>
+        </div>
       </Link>
       <div
         onClick={() => {
@@ -66,7 +65,13 @@ function PlaylistCardM(props) {
           isthisplay && props.isPlaying ? styles.ActiveIconBox : ""
         }`}
       >
-        {loading ? <Loader /> :isthisplay? <PlayButton isthisplay={isthisplay}/> :<PlayButton2/> }
+        {loading ? (
+          <Loader />
+        ) : isthisplay ? (
+          <PlayButton isthisplay={isthisplay} />
+        ) : (
+          <PlayButton2 />
+        )}
       </div>
     </div>
   );
@@ -80,6 +85,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { changeTrack, setplaylistdata })(
-  PlaylistCardM
-);
+export default connect(mapStateToProps, {
+  changeTrack,
+  setplaylistdata,
+  setshufflelist,
+})(PlaylistCardM);
