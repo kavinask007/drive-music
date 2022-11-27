@@ -91,13 +91,13 @@ export default function Main(props) {
           template["hoverColor"] = list[i].hoverColor;
           template["artist"] = list[i].artist;
           template["playlistBg"] = list[i].playlistBg;
-          template["isLoaded"]=false;
+          template["isLoaded"] = false;
           template["playlistData"] = track;
 
           final.push(template);
           template = {};
         }
-        console.log(final)
+        console.log(final);
         dispatch(setplaylist(final));
         setdataloaded(true);
         setloading(false);
@@ -107,7 +107,14 @@ export default function Main(props) {
     <div>
       {loading && (
         <div className="item">
-          <div className="loader10"></div>
+          <div class="spinner-box">
+            <div class="configure-border-1">
+              <div class="configure-core"></div>
+            </div>
+            <div class="configure-border-2">
+              <div class="configure-core"></div>
+            </div>
+          </div>
         </div>
       )}
       {dataloaded && (
