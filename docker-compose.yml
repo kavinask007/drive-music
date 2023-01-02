@@ -1,0 +1,49 @@
+version: "3.3"
+services:
+  main:
+    build: .
+    command: bash -c  "python manage.py collectstatic --noinput && daphne -b 0.0.0.0 -p 8000 stopify_drive.asgi:application"
+    ports:
+      - "8000:8000"
+    environment:
+      client_secret: "${client_secret}"
+      spotify_client_id : "${spotify_client_id}"
+      database_url : "${database_url}"
+      django_secret_key : "${django_secret_key}"
+      spotify_client_secret : "${spotify_client_secret}"
+      client_id : "${client_id}"
+      db_name : "${db_name}"
+      db_user : "${db_user}"
+      db_pass : "${db_pass}"
+      db_host : "${db_host}"
+      db_port : "${db_port}"
+  nginx:
+    image: nginx:1.15-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+  certbot:
+    image: certbot/certbot:arm64v8-latest
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+  db:
+    image: postgres:14.1-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER= "${db_user}"
+      - POSTGRES_PASSWORD="${db_pass}"
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+
+volumes:
+  db:
+    driver: local
