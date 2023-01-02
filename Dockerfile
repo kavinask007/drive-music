@@ -2,6 +2,6 @@ FROM python:3
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 WORKDIR /code
+RUN apt-get update && apt-get install
 COPY . /code/
-RUN pip install -r requirements.txt
-RUN python manage.py collectstatic --noinput
+RUN pip3 install -r requirements.txt
