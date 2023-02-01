@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get("django_secret_key")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG =False
 
-ALLOWED_HOSTS = ['drivemusic.herokuapp.com',"main"]
+ALLOWED_HOSTS = ["main"]
 
 # Application definition
 
@@ -153,7 +153,9 @@ SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 STATICFILES_DIRS=[
-    os.path.join(BASE_DIR,'front/frontreact/build/static/'),
+    os.path.join(BASE_DIR,'front/frontreact/build/static/'),  
+    os.path.join(BASE_DIR,'static/'),  
+    
     ]
 MEDIA_ROOT=os.path.join(BASE_DIR,"media")   
 MEDIA_URL = '/media/'
