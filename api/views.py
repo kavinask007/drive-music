@@ -346,7 +346,7 @@ def getplaylist(request):
         "hoverColor": randomcolor,
         "artist": str(username),
         "playlistBg": randomcolor,
-        "imgUrl":"https://i.ibb.co/txDCNx5/music-placeholder.png",
+        "imgUrl":"/static/music-placeholder.png",
         "playlistData":[]
     }
     if num>0 or "0" in final_template:
@@ -365,7 +365,7 @@ def getplaylist(request):
         "hoverColor": randomcolor,
         "artist": folder.owner,
         "playlistBg": randomcolor,
-        "imgUrl":"https://i.ibb.co/txDCNx5/music-placeholder.png",
+        "imgUrl":"/static/music-placeholder.png",
         "playlistData":[] 
     }
         num+=1
