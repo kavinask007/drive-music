@@ -30,7 +30,7 @@ const INITIAL_STATE = {
   trackData: {
     trackKey: [0, 0],
     trackName: " ",
-    trackImg: "https://i.ibb.co/txDCNx5/music-placeholder.png",
+    trackImg: "/static/music-placeholder.png",
     track: "",
     videoID: "",
   },
