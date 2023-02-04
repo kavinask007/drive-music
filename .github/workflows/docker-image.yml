@@ -17,7 +17,7 @@ jobs:
        platforms: linux/arm64
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker buildx build . --file Dockerfile --tag kavinraj007/drivify:latest
+      run: docker buildx build . --file Dockerfile --tag kavinraj007/drivify:latest --platform linux/arm/v7
     -
       name: Set up QEMU
       uses: docker/setup-qemu-action@v2
