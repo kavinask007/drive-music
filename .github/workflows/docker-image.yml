@@ -8,16 +8,16 @@ jobs:
 
   build:
 
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
       with:
        version: v0.10.0
-       platforms: linux/amd64,linux/arm64
+       platforms: linux/arm64
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag kavinraj007/drivify:latest
+      run: docker buildx build . --file Dockerfile --tag kavinraj007/drivify:latest
     -
       name: Set up QEMU
       uses: docker/setup-qemu-action@v2
