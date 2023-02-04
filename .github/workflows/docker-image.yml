@@ -13,6 +13,11 @@ jobs:
       DOCKER_TARGET_PLATFORM: linux/arm/v7
 
     steps:
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+      with:
+       version: v0.10.0
+       platforms: linux/amd64,linux/arm64
     - uses: actions/checkout@v3
     - name: Build the Docker image
       run: docker  buildx build . --platform linux/arm/v7  --file Dockerfile --tag kavinraj007/drivify:latest
