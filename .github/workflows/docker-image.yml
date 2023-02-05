@@ -24,3 +24,4 @@
          with:
            push: true
            tags: kavinraj007/drivify:latest
+           platform: linux/arm64
