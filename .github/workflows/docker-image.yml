@@ -24,4 +24,4 @@
          with:
            push: true
            tags: kavinraj007/drivify:latest
-           platform: linux/arm/v7
+           platform: linux/amd64,linux/arm64
