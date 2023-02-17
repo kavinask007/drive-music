@@ -158,7 +158,7 @@ def getsongs(request):
 # to get songs from a particular drive folder
 @api_view(('POST',))
 def get_songs_from_folder(request):     
-    username=request.data.get("user")
+    username=request.user
     id_=request.data.get('id')
     if len(User_tokens.objects.filter(username=username))==0:
         return  Response({"user":username}, status=status.HTTP_400_BAD_REQUEST)
@@ -324,7 +324,7 @@ def getplaylist(request):
         return  Response({}, status=status.HTTP_400_BAD_REQUEST) 
     # get the user's gdrive token
     user_token = User_tokens.objects.get(
-        username=username).update_token_if_needed()
+username=username).update_token_if_needed()
     # check if drivify folder exists if not create one
     folder_id = get_stopify_folder_id(user_token.access_token)
     if len(folder_id) == 0:
