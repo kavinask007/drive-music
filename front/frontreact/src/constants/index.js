@@ -27,10 +27,10 @@ export  function get_token(){
 return `Token ${window.localStorage.getItem('token')}`
 }
 export function get_redirect_uri(){
-  return "https://accounts.google.com/o/oauth2/auth?client_id=477933482388-di0ob9thvi50mbg8990esku7aoulrk1b.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Fdrivify.ml%2Fcode%2F&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive&access_type=offline&response_type=code&approval_prompt=force"
+  return "https://accounts.google.com/o/oauth2/auth?client_id=477933482388-di0ob9thvi50mbg8990esku7aoulrk1b.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Fdrivify.kavinraj.com%2Fcode%2F&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive&access_type=offline&response_type=code&approval_prompt=force"
 }
 export const PLAYLISTBTN = [];
-export const endpoint="";
+export const endpoint="http://127.0.0.1:8000";
 export const colors= [
   "#63b598", "#ce7d78", "#ea9e70", "#a48a9e", "#c6e1e8", "#648177" ,"#0d5ac1" ,
   "#f205e6" ,"#1c0365" ,"#14a9ad" ,"#4ca2f9" ,"#a4e43f" ,"#d298e2" ,"#6119d0",

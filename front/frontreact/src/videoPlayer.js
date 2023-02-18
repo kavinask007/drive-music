@@ -9,7 +9,7 @@ export default function VideoPlayer(props) {
   if (player && props.videoId != undefined && player["i"] != null) {
     player.mute();
     if (
-      Math.round(player.getCurrentTime()) - Math.round(time) < 0.5 
+      Math.abs(Math.round(player.getCurrentTime()) -Math.round(time) )>0.75
     ) {
       player.seekTo(time);
     }
