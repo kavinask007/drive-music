@@ -8,8 +8,10 @@ export default function VideoPlayer(props) {
   const [player, setplayer] = useState(null);
   if (player && props.videoId != undefined && player["i"] != null) {
     player.mute();
+    console.log(Math.abs(player.getCurrentTime() -time )>0.50)
     if (
-      Math.abs(Math.round(player.getCurrentTime()) -Math.round(time) )>0.75
+      
+      Math.abs(player.getCurrentTime() -time )>0.15
     ) {
       player.seekTo(time);
     }
@@ -44,6 +46,7 @@ export default function VideoPlayer(props) {
           videoId={props.videoId}
           start={starttime}
           containerClassName={props.videoId}
+          onStateChange={(e)=>console.log(e)}
           opts={opts}
         />
       ) : (
