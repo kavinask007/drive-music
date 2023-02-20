@@ -18,6 +18,7 @@ export const SETSHARED='SETSHARED'
 export const SETFOLDERS="SETFOLDERS"
 export const SETTIME="SETTIME"
 export const SETPLAYLISTDATA="SETPLAYLISTDATA"
+export const SETPLAYLISTLOAD="SETPLAYLISTLOAD"
 export const changePlay = (isPlaying) => {
   return { type: PLAYPAUSE, payload: isPlaying };
 };
@@ -78,4 +79,7 @@ export const settime=(data)=>{
 }
 export const setplaylistdata=(index,data)=>{
   return {type:SETPLAYLISTDATA,payload:data,index:index}
+}
+export const setplaylistload=(index,data)=>{
+  return {type:SETPLAYLISTLOAD,payload:data,index:index}
 }

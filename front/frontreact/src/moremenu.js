@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
-import { setmoremenu, setreload,setfolders} from "./actions";
+import { setmoremenu, setreload, setfolders, setplaylistload } from "./actions";
 import { useState } from "react";
-import { useSelector,useDispatch } from "react-redux";
-import {  endpoint, requestoptions} from "./constants";
+import { useSelector, useDispatch } from "react-redux";
+import { endpoint, requestoptions } from "./constants";
 import { showNotification } from "@mantine/notifications";
 import { useModals } from "@mantine/modals";
 import { get_all_folders } from "./api/get_all_folders";
@@ -25,7 +25,7 @@ function MoreMenu(props) {
   const [isloading, setisloading] = useState(false);
   const [moveloading, setmoveloading] = useState(false);
   const [showfolder, setshowfolder] = useState(false);
-  const[folderloading, setfolderloading] = useState(false);
+  const [folderloading, setfolderloading] = useState(false);
   const [isrenamemodal, setisrenamemodal] = useState(false);
   const [rename, setrename] = useState();
   const [renameloading, setrenameloading] = useState(false);
@@ -35,7 +35,6 @@ function MoreMenu(props) {
   const modals = useModals();
   // to get the song name to change(given songid)
   function getsongname(id) {
-    console.log(id)
     var playlist_id = 0;
     for (let i = 0; i < playlistdata.length; i++) {
       if (playlistdata[i]["link"] == link) {
@@ -43,7 +42,8 @@ function MoreMenu(props) {
         break;
       }
     }
-    if (playlist_id==undefined||playlistdata[playlist_id]==undefined) return "song name"
+    if (playlist_id == undefined || playlistdata[playlist_id] == undefined)
+      return "song name";
     var data = playlistdata[playlist_id]["playlistData"];
     for (let i = 0; i < data.length; i++) {
       if (data[i]["id"] == id) {
@@ -82,6 +82,9 @@ function MoreMenu(props) {
           type: "success",
         });
         setshowfolder(false);
+        props.setplaylistload(link, false);
+        props.setplaylistload(id, false);
+        props.setreloadplaylist(!props.reloadplaylist);
       } else {
         showNotification({
           message: "Something went wrong",
@@ -101,20 +104,22 @@ function MoreMenu(props) {
     });
     fetch(endpoint + "/api/rename/", requestoptions).then((response) => {
       setisloading(false);
-      setrenameloading(false);
+
       if (response.ok) {
         setisrenamemodal(false);
         showNotification({
           title: "Song Renamed ",
           message: "Changes will reflect shortly",
         });
-        props.setreload(true);
+        props.setplaylistload(link, false);
+        props.setreloadplaylist(!props.reloadplaylist);
       } else {
         showNotification({
           title: "Error",
           message: "something went wrong",
         });
       }
+      setrenameloading(false);
     });
   }
   // delete songs handler
@@ -131,7 +136,8 @@ function MoreMenu(props) {
           title: "Song deleted successfully",
           message: "Changes will reflect shortly",
         });
-        props.setreload(true);
+        props.setplaylistload(link, false);
+        props.setreloadplaylist(!props.reloadplaylist);
       } else {
         showNotification({
           title: "Error",
@@ -140,11 +146,11 @@ function MoreMenu(props) {
       }
     });
   }
-  function updatefolders(){
+  function updatefolders() {
     setfolderloading(true);
     get_all_folders().then((data) => {
       dispatch(setfolders(data));
-      setfolderloading(false)
+      setfolderloading(false);
     });
   }
 
@@ -163,7 +169,12 @@ function MoreMenu(props) {
             <Title>Move to</Title>
           </Center>
           <Center>
-         {folderloading?<Loader/>:<Refresh onClick={() => updatefolders()}/>} </Center>
+            {folderloading ? (
+              <Loader />
+            ) : (
+              <Refresh onClick={() => updatefolders()} />
+            )}{" "}
+          </Center>
           {folderdata &&
             folderdata.map((item, index) => {
               return (
@@ -198,7 +209,11 @@ function MoreMenu(props) {
           onChange={(e) => {
             setrename(e.target.value);
           }}
-          onKeyDown={(e)=>{if(e.key==="Enter" ){handlerename()}}}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handlerename();
+            }
+          }}
         />
         <Space h="xl"></Space>
         <Button
@@ -272,13 +287,19 @@ function MoreMenu(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     menu: state.menu,
     clientx: state.clientx,
     songid: state.songid,
     clienty: state.clienty,
+    setreloadplaylist: ownProps.setreloadplaylist,
+    reloadplaylist: ownProps.reloadplaylist,
   };
 };
 
-export default connect(mapStateToProps, { setmoremenu, setreload })(MoreMenu);
+export default connect(mapStateToProps, {
+  setmoremenu,
+  setreload,
+  setplaylistload,
+})(MoreMenu);

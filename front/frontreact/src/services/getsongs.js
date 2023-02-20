@@ -7,7 +7,6 @@ export function get_folder_songs(folderid) {
       'Content-Type': 'application/json'
     },
     body:JSON.stringify({
-    user:"kavinraj",
     id:folderid
     })
   })

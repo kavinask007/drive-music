@@ -26,10 +26,6 @@ export default function Main(props) {
   var loggedin = false;
 
   useEffect(() => {
-    get_all_folders().then((data) => {
-      dispatch(setfolders(data));
-    });
-
     fetch(endpoint + "/api/loggedin/", {
       method: "GET",
       headers: {
@@ -39,6 +35,10 @@ export default function Main(props) {
       .then((response) => {
         if (response.ok) {
           loggedin = true;
+          get_all_folders().then((data) => {
+            dispatch(setfolders(data));
+          });
+      
           return response.json();
         } else {
           window.location.href = "/login/";

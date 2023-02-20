@@ -8,7 +8,6 @@ export default function VideoPlayer(props) {
   const [player, setplayer] = useState(null);
   if (player && props.videoId != undefined && player["i"] != null) {
     player.mute();
-    console.log(Math.abs(player.getCurrentTime() -time )>0.50)
     if (
       
       Math.abs(player.getCurrentTime() -time )>0.15

@@ -22,6 +22,7 @@ import {
   SETSHUFFLEKEY,
   SETFOLDERS,
   SETPLAYLISTDATA,
+  SETPLAYLISTLOAD
 } from "../actions/index";
 const INITIAL_STATE = {
   isPlaying: false,
@@ -177,6 +178,17 @@ export const reducer = (state = INITIAL_STATE, action) => {
         playlistdata: state.playlistdata.map((item, index) => {
           if (index == action.index) {
             return action.payload;
+          }
+          return item;
+        }),
+      };
+      case SETPLAYLISTLOAD:       
+      return {
+        ...state,
+        playlistdata: state.playlistdata.map((item, index) => {
+          if (item.link == action.index) {
+            item.isLoaded =action.payload;
+            return item;
           }
           return item;
         }),

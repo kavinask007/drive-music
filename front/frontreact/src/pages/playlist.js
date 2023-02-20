@@ -20,6 +20,7 @@ function PlaylistPage(props) {
   const [isthisplay, setIsthisPlay] = useState(false);
   const playlistdata = useSelector((state) => state.playlistdata);
   const [loading, setloading] = useState(false);
+  const [reloadplaylist, setreloadplaylist] = useState(false);
   const { path } = useParams();
   function changeBg(color) {
     document.documentElement.style.setProperty("--hover-home-bg", color);
@@ -54,7 +55,7 @@ function PlaylistPage(props) {
         setloading(false);
       });
     }
-  }, []);
+  }, [reloadplaylist]);
 
   useEffect(() => {
     if (playlistdata.length == 0) {
@@ -151,7 +152,10 @@ function PlaylistPage(props) {
               );
             }
           })}
-          <MoreMenu />
+          <MoreMenu
+            setreloadplaylist={setreloadplaylist}
+            reloadplaylist={reloadplaylist}
+          />
         </div>
       )}
     </>

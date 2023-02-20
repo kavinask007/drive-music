@@ -10,7 +10,7 @@ import CONST, {
 } from "../constants/index";
 import Topnav from "../component/topnav/topnav";
 import { useDispatch, useSelector } from "react-redux";
-import { setreload, setfolders } from "../actions";
+import { setreload, setfolders, setplaylistload } from "../actions";
 import {
   Center,
   TextInput,
@@ -20,12 +20,7 @@ import {
   Select,
   Button,
 } from "@mantine/core";
-import {
-  Clipboard,
-  Folder,
-  FolderPlus,
-  Refresh,
-} from "tabler-icons-react";
+import { Clipboard, Folder, FolderPlus, Refresh } from "tabler-icons-react";
 import { showNotification } from "@mantine/notifications";
 import { Icon } from "@material-ui/core";
 import { get_all_folders } from "../api/get_all_folders";
@@ -78,7 +73,7 @@ const MyUploader = () => {
       socket.onmessage = (e) => {
         showNotification({ title: e.data });
         setdownloadstart(false);
-        dispatch(setreload(true));
+        // dispatch(setreload(true));
       };
       socket.onopen = (e) => {
         socket.send(
@@ -100,11 +95,16 @@ const MyUploader = () => {
       if (url.startsWith("https://open.spotify.com/track/")) {
         fetchurl = "/api/spotify/";
       }
-      console.log(endpoint, fetchurl);
+      console.log(endpoint, fetchurl, currentparent);
       fetch(endpoint + fetchurl, requestoptions).then((response) => {
         if (response.ok) {
           showNotification({ title: "downloaded successfully" });
-          dispatch(setreload(true));
+          let id;
+          for (let i = 0; i < folderdata.length; i++) {
+            if (folderdata[i]["name"] == currentparent)
+              id = folderdata[i]["id"];
+          }
+          dispatch(setplaylistload(id, false));
         } else {
           showNotification({ title: "error occured" });
         }
@@ -143,11 +143,13 @@ const MyUploader = () => {
           </Grid>
           <h4>From link</h4>
           <Center>
-          
             <span>
               <Grid container xs={12}>
-              <AddFolder trigger={() => <FolderPlus size={28} className="pointer"/>} callback={()=>updatefolders} />
-              <Space w="sm" />
+                <AddFolder
+                  trigger={() => <FolderPlus size={28} className="pointer" />}
+                  callback={() => updatefolders}
+                />
+                <Space w="sm" />
                 <Select
                   placeholder="Pick a folder"
                   data={folderdata.map((data) => {
@@ -161,24 +163,23 @@ const MyUploader = () => {
                 />
               </Grid>
               <Space h="xl" />
-                    {folderloading ? (
-                      <Loader />
-                    ) : (
-                      <Icon>
-                        <Refresh
-                        size={28}
-                        className="pointer"
-                          onClick={() => {
-                            updatefolders();
-                          }}
-                        ></Refresh>
-                      </Icon>
-                    )}
+              {folderloading ? (
+                <Loader />
+              ) : (
+                <Icon>
+                  <Refresh
+                    size={28}
+                    className="pointer"
+                    onClick={() => {
+                      updatefolders();
+                    }}
+                  ></Refresh>
+                </Icon>
+              )}
             </span>
           </Center>
 
           <TextInput
-            
             className="urlcss"
             placeholder="paste youtube, spotify or direct download link"
             type="url"
