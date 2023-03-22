@@ -10,7 +10,7 @@ import CONST, {
 } from "../constants/index";
 import Topnav from "../component/topnav/topnav";
 import { useDispatch, useSelector } from "react-redux";
-import { setreload, setfolders, setplaylistload } from "../actions";
+import { setfolders, setplaylistload } from "../actions";
 import {
   Center,
   TextInput,
@@ -25,6 +25,7 @@ import { showNotification } from "@mantine/notifications";
 import { Icon } from "@material-ui/core";
 import { get_all_folders } from "../api/get_all_folders";
 import { AddFolder } from "../addfolder";
+import { Addplaylist } from "../addPlaylist";
 const MyUploader = () => {
   const [url, seturl] = useState("");
   const [downloadstart, setdownloadstart] = useState(false);
@@ -130,6 +131,12 @@ const MyUploader = () => {
       <Topnav></Topnav>
       <Center>
         <Grid container xs={12} spacing={3} direction="column" align="center">
+          <Grid item xs={12} align="center">
+            <h4 style={{ display: "inline", fontSize: "30px" }}>
+              {"Shared Playlists "}
+            </h4>
+            <Addplaylist />
+          </Grid>
           <Grid item align="center" xs={12} sm={12}>
             <Grid item align="center" xs={10} sm={7}>
               <h4>Local files</h4>
@@ -142,6 +149,7 @@ const MyUploader = () => {
             </Grid>
           </Grid>
           <h4>From link</h4>
+
           <Center>
             <span>
               <Grid container xs={12}>
@@ -149,6 +157,7 @@ const MyUploader = () => {
                   trigger={() => <FolderPlus size={28} className="pointer" />}
                   callback={() => updatefolders}
                 />
+
                 <Space w="sm" />
                 <Select
                   placeholder="Pick a folder"

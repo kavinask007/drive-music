@@ -30,4 +30,6 @@ path("all-folders/",get_all_folders),
 path("create-folder/",create_new_folder),
 path("move/",move_file),
 path("spotify/",spotifydownload),
+path("like/",Like),
+path("unlike/",Unlike)
 ]

@@ -46,23 +46,6 @@ function Home(props) {
                         />
                       );
                     })}
-                  <Card>
-                    <Stack>
-                      <Addplaylist />
-                      <AddFolder
-                        trigger={() => (
-                          <Button
-                            variant="outline"
-                            styles={{
-                              outline: { color: "green" },
-                            }}
-                          >
-                            <FolderPlus></FolderPlus> Add folder{" "}
-                          </Button>
-                        )}
-                      />
-                    </Stack>
-                  </Card>
                 </div>
               </div>
             )}

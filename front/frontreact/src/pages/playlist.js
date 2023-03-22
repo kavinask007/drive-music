@@ -15,6 +15,7 @@ import { CreateShuffleList } from "../functions/random";
 import { get_folder_songs } from "../services/getsongs";
 import { setplaylistdata, changePlay } from "../actions";
 import { Center, Loader } from "@mantine/core";
+import { songs_by_artist } from "../services/filtersongs";
 function PlaylistPage(props) {
   const [playlistIndex, setPlaylistIndex] = useState(undefined);
   const [isthisplay, setIsthisPlay] = useState(false);
@@ -46,6 +47,7 @@ function PlaylistPage(props) {
           playlist["isLoaded"] = true;
           props.setplaylistdata(index, playlist);
           setloading(false);
+
           return;
         }
         playlist["playlistData"] = playlistData;
@@ -107,7 +109,7 @@ function PlaylistPage(props) {
                   <div className={styles.PlaylistIcons}>
                     <button
                       onClick={() => {
-                        console.log(playlistdata.indexOf(item));
+                        
                         props.changeTrack([playlistdata.indexOf(item), 0]);
                         setIsthisPlay(true);
                       }}

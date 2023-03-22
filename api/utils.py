@@ -213,9 +213,13 @@ def get_headers(access_token):
     }
 
 
-def jsonify_songs(files):
+def jsonify_songs(files,liked_songs=None):
     final = {}
     albumcover = None
+    if liked_songs==None:
+        liked_songs=[]
+    else:
+        liked_songs=[v for song in liked_songs for k,v in song.items() if k=="fileId"]
     for i in range(0, len(files)):
         videoId = None
         if "appProperties" in files[i]:
@@ -238,6 +242,7 @@ def jsonify_songs(files):
             "link": files[i]["webContentLink"],
             "trackTime": trackTime,
             "id": files[i]["id"],
+            "is_liked":1 if files[i]["id"] in liked_songs else 0
         }
         if videoId != None:
             final[str(i)]["videoId"] = videoId

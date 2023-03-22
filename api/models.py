@@ -31,3 +31,16 @@ class Playlist(models.Model):
     name=models.CharField(max_length=150)
     playlist=models.CharField(max_length=500)
     owner=models.CharField(max_length=500)
+class LikedSongs(models.Model):
+    user=models.ForeignKey(
+        'User_tokens',
+        on_delete=models.CASCADE,
+    )
+    name=models.CharField(max_length=200)
+    track=models.CharField(max_length=500)
+    trackimg=models.CharField(max_length=500)
+    videoId=models.CharField(max_length=100)
+    trackArtist=models.CharField(max_length=200)
+    trackTime=models.CharField(max_length=10)
+    fileId=models.CharField(max_length=100)
+

@@ -1,3 +1,4 @@
+import { MenuItem } from "@material-ui/core";
 import {
   PLAYPAUSE,
   CHANGETRACK,
@@ -22,7 +23,8 @@ import {
   SETSHUFFLEKEY,
   SETFOLDERS,
   SETPLAYLISTDATA,
-  SETPLAYLISTLOAD
+  SETPLAYLISTLOAD,
+  SETLIKEUNLIKE,
 } from "../actions/index";
 const INITIAL_STATE = {
   isPlaying: false,
@@ -163,15 +165,30 @@ export const reducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         playlistdata: action.payload,
-        // trackData: {
-        //   trackKey: [0, 0],
-        //   track: `${action.payload[0].playlistData[0].link}`,
-        //   trackName: `${action.payload[0].playlistData[0].songName}`,
-        //   trackImg: `${action.payload[0].playlistData[0].songimg}`,
-        //   trackArtist: `${action.payload[0].playlistData[0].songArtist}`,
-        //   videoID: `${action.payload[0].playlistData[0].videoId}`,
-        // },
       };
+    case SETLIKEUNLIKE:
+      return {
+        ...state,
+        playlistdata: state.playlistdata.map((item_, index_) => {
+          if (index_ == action.playlistIndex) {
+            return {
+              ...state.playlistdata[action.playlistIndex],
+              playlistData: state.playlistdata[action.playlistIndex][
+                "playlistData"
+              ].map((item, index) => {
+                if (item.index == action.index) {
+                  item.is_liked = action.payload;
+                }
+                return item;
+              }),
+              
+            };
+           
+          }
+          return item_
+        }),
+      };
+
     case SETPLAYLISTDATA:
       return {
         ...state,
@@ -182,12 +199,12 @@ export const reducer = (state = INITIAL_STATE, action) => {
           return item;
         }),
       };
-      case SETPLAYLISTLOAD:       
+    case SETPLAYLISTLOAD:
       return {
         ...state,
         playlistdata: state.playlistdata.map((item, index) => {
           if (item.link == action.index) {
-            item.isLoaded =action.payload;
+            item.isLoaded = action.payload;
             return item;
           }
           return item;

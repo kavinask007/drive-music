@@ -11,7 +11,6 @@ from django.utils import timezone
 from datetime import timedelta
 from .colors import colors
 from .utils import *
-import time
 from rest_framework.authtoken.models import Token
 # check and return if user is logged in 
 @api_view(("GET",))
@@ -164,8 +163,25 @@ def get_songs_from_folder(request):
         return  Response({"user":username}, status=status.HTTP_400_BAD_REQUEST)
     user_token = User_tokens.objects.get(
         username=username).update_token_if_needed()
+    liked_songs=get_liked_songs_of_user(user_token)
+    if id_=='likedsongs':
+        final={}
+        for i,song in enumerate(liked_songs):
+            final[str(i)] = {
+            "index": str(i + 1),
+            "songName": song["name"],
+            "songimg": song['trackimg'],
+            "songArtist": song["trackArtist"],
+            "link": song["track"],
+            "trackTime": song['trackTime'],
+            "id":song['fileId'],
+            "is_liked":1 
+        }
+
+        return Response(final,status=status.HTTP_200_OK)
     files=get_items_from_folderid(user_token.access_token,id_,False)
-    songs=jsonify_songs(files)
+    print(liked_songs)
+    songs=jsonify_songs(files,liked_songs)
     return Response(songs[0],status=status.HTTP_200_OK)
     
 # to delete file in google drive
@@ -332,14 +348,25 @@ username=username).update_token_if_needed()
         if 'id' in stopify_id:
             create_playlist_folder(user_token.access_token,'All Songs')
         return Response({}, status=status.HTTP_200_OK)
-    final_template={}
+    randomcolor=colors[random.randint(0,len(colors)-1)]
+    final_template={"0":{
+        "index": "0",
+        "type": "album",    
+        "title": "Liked Songs",
+        "link": "likedsongs",
+        "hoverColor": randomcolor,
+        "artist": str(username),
+        "playlistBg": randomcolor,
+        "imgUrl":"/static/music-placeholder.png",
+        "playlistData":[]
+    }}
     # get all the folders in drivify folder
     root= get_items_from_folderid(user_token.access_token, folder_id,True)
     # loop through all the folders and jsonify the song data
     for num,folder in enumerate(root):
         randomcolor=colors[random.randint(0,len(colors)-1)]
-        final_template[str(num)]={
-        "index": str(num),
+        final_template[str(num+1)]={
+        "index": str(num+1),
         "type": "album",    
         "title": folder['name'],
         "link": folder['id'],
@@ -349,7 +376,7 @@ username=username).update_token_if_needed()
         "imgUrl":"/static/music-placeholder.png",
         "playlistData":[]
     }
-    if num>0 or "0" in final_template:
+    if "0" in final_template:
         num+=1
     # user's shared playlists
     playlists=Playlist.objects.filter(user=user_token)
@@ -371,3 +398,40 @@ username=username).update_token_if_needed()
         num+=1
     # print(final_template)
     return Response(final_template, status=status.HTTP_200_OK)
+
+
+@api_view(("POST",))
+def Like(request):
+    username = request.user
+    user=User_tokens.objects.get(username=username)
+    if not username.is_authenticated:
+        return  Response({}, status=status.HTTP_400_BAD_REQUEST) 
+    track=request.data.get("track")
+    name=request.data.get("name")
+    track_id=request.data.get("track_id")
+    trackimg=request.data.get("trackimg")
+    videoId=request.data.get("videoId") 
+    trackTime=request.data.get("trackTime") 
+    trackArtist=request.data.get("trackArtist")
+    search=LikedSongs.objects.filter(user=user,fileId=track_id)
+    if len(search)==0:
+        LikedSongs.objects.create(user=user,track=track,trackimg=trackimg,videoId=videoId,trackArtist=trackArtist,name=name,fileId=track_id,trackTime=trackTime)
+    else:
+        return Response({"data":"already exists"},status=status.HTTP_200_OK)
+    return Response({"data":"Ok"},status=status.HTTP_200_OK)
+
+@api_view(("POST",))
+def Unlike(request):
+    username = request.user
+    track=request.data.get("track_id")
+    if not username.is_authenticated:
+        return  Response({}, status=status.HTTP_400_BAD_REQUEST) 
+    user=User_tokens.objects.get(username=username)
+    search=LikedSongs.objects.filter(user=user,fileId=track)
+    if len(search)==0:
+        return Response({"data":"song doesn't exists"},status=status.HTTP_200_OK)
+    LikedSongs.objects.get(user=user,fileId=track).delete()
+    return Response({"data":"Ok"},status=status.HTTP_200_OK)
+
+def get_liked_songs_of_user(user):
+    return list(LikedSongs.objects.filter(user=user).values())

@@ -11,12 +11,12 @@ import CONST from "../../constants/index";
 import { colors } from "../../constants/index";
 import VideoPlayer from "../../videoPlayer";
 import { ActionIcon } from "@mantine/core";
-import { Video, VideoOff } from "tabler-icons-react";
+import { Video, VideoOff, Download } from "tabler-icons-react";
 function FooterLeft(props) {
   const [open, setopen] = useState(false);
   const [video, setvideo] = useState(false);
   const [color, setcolor] = useState("#A92E9F");
-    useEffect(() => {
+  useEffect(() => {
     setcolor(colors[Math.round(Math.random() * colors.length)]);
   }, [props.trackData]);
 
@@ -31,6 +31,12 @@ function FooterLeft(props) {
         >
           <ImgBox trackData={props.trackData} />
           <SongDetails trackData={props.trackData} />
+          <Download
+            onClick={(e) => {
+              window.location.href = props.trackData.track;
+              e.stopPropagation();
+            }}
+          />
         </div>
       )}
       {open && (
@@ -79,30 +85,34 @@ function FooterLeft(props) {
               />
             </>
           ) : !video ? (
-                <>
-                  <ImgBox2 trackData={props.trackData} />
-                  <SongDetails2 trackData={props.trackData} />
-                  <ActionIcon size={"small"}>
-                    <Video onClick={() => setvideo(true)}></Video>
-                  </ActionIcon>
-                </>
-              ) : (
-                <>
-                  <VideoPlayer videoId={props.trackData.videoID} />
-                  <SongDetails2 trackData={props.trackData} />
-                  <ActionIcon size={"small"}>
-                    <VideoOff onClick={() => setvideo(false)}></VideoOff>
-                  </ActionIcon>
-                </>
-              )
-          }
+            <>
+              <ImgBox2 trackData={props.trackData} />
+              <SongDetails2 trackData={props.trackData} />
+              <ActionIcon size={"small"}>
+                <Video onClick={() => setvideo(true)}></Video>
+              </ActionIcon>
+            </>
+          ) : (
+            <>
+              <VideoPlayer videoId={props.trackData.videoID} />
+              <SongDetails2 trackData={props.trackData} />
+              <ActionIcon size={"small"}>
+                <VideoOff onClick={() => setvideo(false)}></VideoOff>
+              </ActionIcon>
+            </>
+          )}
           {props.width < CONST.MOBILE_SIZE && (
             <MusicControlBox large={true} loading={props.loading} />
           )}
           {props.width < CONST.MOBILE_SIZE && (
             <FooterRight volume={props.volume} setVolume={props.setVolume} />
           )}
-          
+          <Download
+            onClick={(e) => {
+              window.location.href = props.trackData.track;
+              e.stopPropagation();
+            }}
+          />
         </div>
       )}
     </div>
