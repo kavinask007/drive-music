@@ -11,6 +11,7 @@ urlpatterns = [
     path("upload/",TemplateView.as_view(template_name='index.html')),
     path("login/",TemplateView.as_view(template_name='index.html')),
     path("code/",TemplateView.as_view(template_name='index.html')),
+    path("demo/",TemplateView.as_view(template_name='index.html')),
     path("playlist/<str>",TemplateView.as_view(template_name='index.html')), 
 ]
  
