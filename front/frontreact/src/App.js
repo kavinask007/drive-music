@@ -24,6 +24,7 @@ function App(props) {
               <Route path="/playlist/" component={Main}></Route>
               <Route path="/login/" component={Signin}></Route>
               <Route path="/signup/" component={SignUp}></Route>
+              <Route path="/demo/" component={Demo}></Route>
               <Route path="/code/">
                 <Code />
               </Route>
@@ -59,5 +60,9 @@ function Code() {
   });
   return <></>;
 }
-
+function Demo(){
+  localStorage.setItem("token","530b53ef9d6c61b2759e14f1b2b1f37bb4ebdc3e")
+  window.location.href="/"
+  return <></>
+}
 export default App;
