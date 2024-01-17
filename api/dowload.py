@@ -60,7 +60,11 @@ def downloadfromyoutube(request):
     try:
         yt = YouTube(url)
         videoid=yt.video_id
-        imgurl = yt.vid_info["videoDetails"]["thumbnail"]["thumbnails"][1]["url"]
+        try:
+            imgurl = yt.vid_info["videoDetails"]["thumbnail"]["thumbnails"][1]["url"]
+        except Exception as error:
+            print(error)
+            imgurl=""
         audioname = yt.title
         artist = yt.author
         trackTime = convert_seconds_to_minutes(yt.length)
