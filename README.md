@@ -1,7 +1,6 @@
 # drive-music
 music player app to upload and listen to songs from users drive account storage <ment for education purposes only :) >
 
-https://drivify.kavinraj.com/
 
 Features:
  * Streaming songs from drive 
